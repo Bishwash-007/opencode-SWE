@@ -170,6 +170,33 @@
           "Authorization": "Bearer {file:~/.config/opencode/keys/obsidian-api-key}"
         },
         "timeout": { "startup": 45000, "catalog": 30000 }
+      },
+      "sequential-thinking": {
+        "type": "local",
+        "command": ["npx", "-y", "sequential-thinking-mcp"],
+        "disabled": false,
+        "timeout": { "catalog": 30000, "execution": 30000 }
+      },
+      "thinking-map": {
+        "type": "local",
+        "command": ["npx", "-y", "@modelcontextprotocol/server-sequential-thinking"],
+        "disabled": false,
+        "timeout": { "catalog": 30000, "execution": 30000 }
+      },
+      "memory": {
+        "type": "local",
+        "command": ["npx", "-y", "@modelcontextprotocol/server-memory"],
+        "disabled": false,
+        "timeout": { "catalog": 30000, "execution": 30000 }
+      },
+      "figma": {
+        "type": "remote",
+        "url": "https://mcp.figma.com/mcp",
+        "disabled": false,
+        "headers": {
+          "Authorization": "Bearer {file:~/.config/opencode/keys/figma-api-key}"
+        },
+        "timeout": { "startup": 45000, "catalog": 30000 }
       }
     }
   },

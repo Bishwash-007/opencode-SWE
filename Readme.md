@@ -277,6 +277,9 @@ The environment currently integrates three MCP servers.
 | Context7 | Up-to-date technical documentation | Library documentation and API references |
 | Playwright | Browser automation | Navigation, interaction, and browser testing |
 | Obsidian Local REST API | Personal knowledge base integration | Accessing and working with Obsidian vault content |
+| Memory | Persistent knowledge graph | Store and retrieve context across sessions |
+| Sequential Thinking | Structured problem solving | Break down complex problems into steps |
+| Thinking Map | Visual reasoning aid | Map reasoning chains and decision trees |
 
 ### Context7
 
@@ -311,6 +314,39 @@ Typical use cases:
 - Maintaining development notes.
 - Connecting research with implementation work.
 
+### Memory
+
+Provides persistent knowledge graph storage that survives across sessions.
+
+Typical use cases:
+
+- Remembering user preferences across conversations.
+- Storing project-specific context.
+- Tracking implementation decisions.
+- Building organizational knowledge.
+
+### Sequential Thinking
+
+Breaks down complex problems into structured, sequential steps.
+
+Typical use cases:
+
+- Planning complex implementations.
+- Breaking down ambiguous requirements.
+- Debugging multi-step issues.
+- Designing system architectures.
+
+### Thinking Map
+
+Visual thinking tool for mapping reasoning through complex problems.
+
+Typical use cases:
+
+- Exploring design alternatives.
+- Tracing decision trees.
+- Visualizing architectural tradeoffs.
+- Tracking reasoning chains.
+
 ### MCP architecture
 
 ```mermaid
@@ -320,15 +356,21 @@ flowchart TB
     O --> C[Context7 MCP]
     O --> P[Playwright MCP]
     O --> B[Obsidian MCP]
+    O --> M[Memory MCP]
+    O --> S[Sequential Thinking MCP]
+    O --> T[Thinking Map MCP]
 
     C --> D[Technical Documentation]
     P --> W[Browser and Web Applications]
     B --> K[Local Knowledge Base]
+    M --> G[Persistent Knowledge Graph]
+    S --> P2[Sequential Problem Solving]
+    T --> V[Visual Reasoning]
 
     classDef agent fill:#2563eb,color:#fff
     classDef mcp fill:#0f766e,color:#fff
     class O agent
-    class C,P,B mcp
+    class C,P,B,M,S,T mcp
 ```
 
 MCP integrations provide capabilities; agents decide when and how to use them.
@@ -622,7 +664,9 @@ ls -la ~/.config/opencode/skills/
 | `1.0` | Initial agentic environment structure |
 | `1.1` | Added custom agents and reusable slash commands |
 | `1.2` | Integrated Context7, Playwright, and Obsidian MCP servers |
-| `1.3` | Introduced Fusion-inspired separation of reasoning, execution, and review |
+| `1.3` | Integrated Context7, Playwright, and Obsidian MCP servers |
+| `1.4` | Added Memory, Sequential Thinking, and Thinking Map MCP servers |
+| `1.5` | Introduced Fusion-inspired separation of reasoning, execution, and review |
 
 *The version history above describes the documented configuration milestones, not official OpenCode releases.*
 
@@ -655,6 +699,9 @@ flowchart TB
         MCP1[Context7]
         MCP2[Playwright]
         MCP3[Obsidian]
+        MCP4[Memory]
+        MCP5[Sequential Thinking]
+        MCP6[Thinking Map]
     end
 
     U --> O
@@ -673,6 +720,9 @@ flowchart TB
     O <--> MCP1
     I <--> MCP2
     E <--> MCP3
+    O <--> MCP4
+    O <--> MCP5
+    O <--> MCP6
 
     classDef primary fill:#2563eb,color:#fff,stroke:#1d4ed8
     classDef agent fill:#0f766e,color:#fff,stroke:#115e59
