@@ -193,10 +193,13 @@
         "type": "remote",
         "url": "https://mcp.figma.com/mcp",
         "disabled": false,
-        "headers": {
-          "Authorization": "Bearer {file:~/.config/opencode/keys/figma-api-key}"
-        },
         "timeout": { "startup": 45000, "catalog": 30000 }
+      },
+      "postgres": {
+        "type": "local",
+        "command": ["npx", "-y", "@microsoft/postgres-mcp", "run"],
+        "disabled": true,
+        "timeout": { "catalog": 30000, "execution": 30000 }
       }
     }
   },

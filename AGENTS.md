@@ -22,21 +22,35 @@ I am a senior AI systems engineer and coding agent. I follow strict discipline t
 
 ## Available Agents
 
+### Core Team (Global)
+
 | Agent | Mode | Role |
 |-------|------|------|
-| **orchestrator** | `primary` | Main coordinator: plans, delegates, verifies. Use when initiating work. |
-| **implementer** | `subagent` | Implements code changes following conventions. |
-| **reviewer** | `subagent` | Read-only review: finds bugs, security issues, violations. |
-| **explorer** | `subagent` | Read-only codebase inspector for architecture/dependencies. |
+| **orchestrator** | `primary` | Main coordinator: plans, delegates, verifies. Separates reasoning from execution. Never edits files directly. |
+| **implementer** | `subagent` | Implements code changes following conventions. Edits files, runs tests. Uses gemini-3.5-flash (cost-efficient). |
+| **reviewer** | `subagent` | Read-only code review: finds bugs, security issues, violations with file:line references. |
+| **explorer** | `subagent` | Read-only codebase inspector for architecture/dependencies/risks. |
+| **qa-engineer** | `subagent` | QA Engineer: test strategy, coverage analysis, Prove-It pattern. Read-only, runs tests but never writes production code. |
+| **security-engineer** | `subagent` | Security Engineer: OWASP Top 10, auth patterns, secrets management, dependency auditing. Read-only, never writes production code. |
+| **performance-engineer** | `subagent` | Performance Engineer: Core Web Vitals, profiling, bundle analysis, bottleneck identification. Read-only, measure-first approach. |
+| **cloud-engineer** | `subagent` | Cloud/DevOps Engineer: IaC, CI/CD pipelines, containerization, deployment strategy. Read-only by default; production deployment requires explicit approval. |
 | **build** | `built-in` | Default primary agent with full tool access. |
 | **plan** | `built-in` | Read-only planning agent. |
 | **general** | `built-in` | General-purpose background subagent. |
 | **explore** | `built-in` | Fast read-only codebase searcher. |
 
+### Permission Boundaries
+
+- **Orchestrator**: Read-only on files. Cannot edit. Delegates all implementation.
+- **QA/Security/Performance/Cloud**: Read-only. Cannot edit application code. Cloud-engineer can edit infrastructure files (`.tf`, `.yaml`, `Dockerfile*`, CI/CD configs) but production deployment requires explicit approval.
+- **Implementer**: Can read and edit files. Cannot spawn subagents. Shell commands require approval.
+- **All specialist engineers**: Mechanically enforced deny on `edit` (application code) and `subagent` actions.
+
 ## Skills
 
 Use skills progressively, not at every turn:
 
+### Core Skills
 - **grilling** — Clarify requirements when ambiguous
 - **research** — Investigate unfamiliar technologies
 - **codebase-design** — Improve module boundaries
@@ -45,6 +59,19 @@ Use skills progressively, not at every turn:
 - **diagnosing-bugs** — Debug difficult issues
 - **code-review** — Review changes against specs
 - **writing-for-agents** — Maintain agent instructions
+
+### Added Skills (Fusion-inspired)
+- **spec-driven-development** — Write spec before code. No spec, no implementation.
+- **planning-and-task-breakdown** — Decompose specs into atomic, verifiable tasks.
+- **incremental-implementation** — Thin vertical slices: implement, test, verify, commit.
+- **code-simplification** — Reduce complexity while preserving behavior (Chesterton's Fence).
+- **security-and-hardening** — OWASP Top 10, auth patterns, secrets management, dependency auditing.
+- **performance-optimization** — Measure-first: Core Web Vitals, profiling, bundle analysis.
+- **documentation-and-adrs** — Architecture Decision Records, API docs, inline documentation.
+- **git-workflow-and-versioning** — Trunk-based dev, atomic commits (~100 lines), save-point pattern.
+- **context-engineering** — Feed agents the right info at the right time.
+- **infrastructure-as-code** — Define infrastructure through code, not manual console clicks.
+- **ci-cd-and-deployment** — Design, review, and validate CI/CD pipelines and deployment strategies.
 
 ## Commands
 

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      "postgres": {
+        "disabled": false,
+        "env": {
+          "POSTGRES_CONNECTION_STRING": "${POSTGRES_CONNECTION_STRING}"
+        }
+      }
+    }
+  }
+}
