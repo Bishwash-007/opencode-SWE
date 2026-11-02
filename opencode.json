@@ -1,0 +1,179 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "username": "Bishwash007",
+  "shell": "/bin/bash",
+  "model": "freellmapi/auto",
+  "default_agent": "orchestrator",
+  "permissions": [
+    { "action": "shell", "resource": "*", "effect": "ask" },
+    { "action": "read", "resource": "*.env", "effect": "ask" },
+    { "action": "read", "resource": "*.env.*", "effect": "ask" },
+    { "action": "read", "resource": "*.env.example", "effect": "allow" },
+    { "action": "question", "resource": "*", "effect": "allow" }
+  ],
+  "providers": {
+    "freellmapi": {
+      "package": "aisdk:@ai-sdk/openai-compatible",
+      "name": "FreeLLMAPI",
+      "settings": {
+        "baseURL": "http://127.0.0.1:3001/v1",
+        "apiKey": "{file:~/.config/opencode/keys/freellmapi-key}"
+      },
+      "models": {
+        "auto": {
+          "name": "Auto (router picks the best available model)",
+          "limit": { "context": 1048576, "output": 8192 }
+        },
+        "fusion": {
+          "name": "Fusion (panel of models answer in parallel)",
+          "limit": { "context": 1048576, "output": 8192 }
+        },
+        "claude-opus-4-5": {
+          "name": "Opus slot",
+          "limit": { "context": 1048576, "output": 8192 }
+        },
+        "claude-sonnet-4-5": {
+          "name": "Sonnet slot",
+          "limit": { "context": 1048576, "output": 8192 }
+        },
+        "claude-haiku-4-5": {
+          "name": "Haiku slot",
+          "limit": { "context": 1048576, "output": 8192 }
+        },
+        "gemini-3-flash-preview": {
+          "name": "Gemini 3 Flash Preview",
+          "limit": { "context": 1048576, "output": 8192 }
+        },
+        "gemini-3.5-flash": {
+          "name": "Gemini 3.5 Flash",
+          "limit": { "context": 1048576, "output": 8192 }
+        },
+        "gemini-3.6-flash": {
+          "name": "Gemini 3.6 Flash",
+          "limit": { "context": 1048576, "output": 8192 }
+        },
+        "gemini-3.8-flash": {
+          "name": "Gemini 3.8 Flash",
+          "limit": { "context": 1048576, "output": 8192 }
+        },
+        "gemini-flash": {
+          "name": "Gemini Flash",
+          "limit": { "context": 128000, "output": 8192 }
+        }
+      }
+    }
+  },
+  "agents": {
+    "orchestrator": {
+      "mode": "primary",
+      "model": "freellmapi/claude-sonnet-4-5",
+      "description": "Primary software engineering coordinator. Coordinates exploration, planning, implementation, and review. Does not edit files directly.",
+      "permissions": [
+        { "action": "read", "resource": "*", "effect": "allow" },
+        { "action": "bash", "resource": "*", "effect": "ask" },
+        { "action": "shell", "resource": "*", "effect": "ask" },
+        { "action": "grep", "resource": "*", "effect": "allow" },
+        { "action": "glob", "resource": "*", "effect": "allow" },
+        { "action": "webfetch", "resource": "*", "effect": "allow" },
+        { "action": "websearch", "resource": "*", "effect": "allow" },
+        { "action": "task", "resource": "*", "effect": "allow" },
+        { "action": "edit", "resource": "*", "effect": "deny" },
+        { "action": "subagent", "resource": "*", "effect": "deny" }
+      ]
+    },
+    "implementer": {
+      "mode": "subagent",
+      "model": "freellmapi/gemini-3.5-flash",
+      "description": "Implements approved changes following project conventions",
+      "permissions": [
+        { "action": "read", "resource": "*", "effect": "allow" },
+        { "action": "edit", "resource": "*", "effect": "allow" },
+        { "action": "bash", "resource": "*", "effect": "ask" },
+        { "action": "shell", "resource": "*", "effect": "ask" },
+        { "action": "task", "resource": "*", "effect": "deny" },
+        { "action": "subagent", "resource": "*", "effect": "deny" }
+      ]
+    },
+    "reviewer": {
+      "mode": "subagent",
+      "description": "Read-only code review for bugs and violations",
+      "permissions": [
+        { "action": "read", "resource": "*", "effect": "allow" },
+        { "action": "edit", "resource": "*", "effect": "deny" },
+        { "action": "bash", "resource": "git checkout*", "effect": "deny" },
+        { "action": "bash", "resource": "git reset*", "effect": "deny" },
+        { "action": "bash", "resource": "npm *", "effect": "deny" },
+        { "action": "bash", "resource": "rm *", "effect": "deny" },
+        { "action": "subagent", "resource": "*", "effect": "deny" }
+      ]
+    },
+    "explorer": {
+      "mode": "subagent",
+      "description": "Read-only codebase inspector for architecture and risks",
+      "permissions": [
+        { "action": "edit", "resource": "*", "effect": "deny" },
+        { "action": "bash", "resource": "npm *", "effect": "deny" },
+        { "action": "bash", "resource": "yarn *", "effect": "deny" },
+        { "action": "shell", "resource": "*", "effect": "deny" },
+        { "action": "subagent", "resource": "*", "effect": "deny" }
+      ]
+    }
+  },
+  "commands": {
+    "plan": {
+      "description": "Analyze requirements and produce an implementation plan",
+      "agent": "general",
+      "model": "freellmapi/claude-sonnet-4-5",
+      "subagent": true
+    },
+    "implement": {
+      "description": "Implement an approved plan",
+      "agent": "implementer",
+      "subagent": true
+    },
+    "review": {
+      "description": "Review current changes",
+      "agent": "reviewer",
+      "subagent": true
+    },
+    "debug": {
+      "description": "Investigate and diagnose a bug",
+      "agent": "general",
+      "subagent": true
+    },
+    "research": {
+      "description": "Research a technical topic using trustworthy sources",
+      "agent": "general",
+      "subagent": true
+    }
+  },
+  "mcp": {
+    "servers": {
+      "context7": {
+        "type": "remote",
+        "url": "https://mcp.context7.com/mcp",
+        "disabled": false,
+        "timeout": { "catalog": 30000, "execution": 30000 }
+      },
+      "playwright": {
+        "type": "local",
+        "command": ["npx", "-y", "@playwright/mcp@latest"],
+        "disabled": false,
+        "timeout": { "catalog": 30000, "execution": 30000 }
+      },
+      "obsidian": {
+        "type": "remote",
+        "url": "http://127.0.0.1:27123/mcp",
+        "protocol": "auto",
+        "oauth": false,
+        "headers": {
+          "Authorization": "Bearer {file:~/.config/opencode/keys/obsidian-api-key}"
+        },
+        "timeout": { "startup": 45000, "catalog": 30000 }
+      }
+    }
+  },
+  "skills": [
+    "~/.config/opencode/skills"
+  ]
+}
