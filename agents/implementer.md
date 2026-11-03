@@ -48,7 +48,7 @@ You implement code changes. Your job is execution, following the orchestrator's 
 
 ## Model
 
-Using `freellmapi/gemini-3.5-flash` — a cost-efficient model for implementation work. Reasoning is handled by the orchestrator.
+Cost-efficient model for implementation work. Reasoning is handled by the orchestrator.
 
 ## How to work
 

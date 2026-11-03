@@ -1,7 +1,7 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "username": "Bishwash007",
-  "shell": "/bin/bash",
+  "shell": "zsh",
   "model": "freellmapi/auto",
   "default_agent": "orchestrator",
   "permissions": [
@@ -27,38 +27,6 @@
         "fusion": {
           "name": "Fusion (panel of models answer in parallel)",
           "limit": { "context": 1048576, "output": 8192 }
-        },
-        "claude-opus-4-5": {
-          "name": "Opus slot",
-          "limit": { "context": 1048576, "output": 8192 }
-        },
-        "claude-sonnet-4-5": {
-          "name": "Sonnet slot",
-          "limit": { "context": 1048576, "output": 8192 }
-        },
-        "claude-haiku-4-5": {
-          "name": "Haiku slot",
-          "limit": { "context": 1048576, "output": 8192 }
-        },
-        "gemini-3-flash-preview": {
-          "name": "Gemini 3 Flash Preview",
-          "limit": { "context": 1048576, "output": 8192 }
-        },
-        "gemini-3.5-flash": {
-          "name": "Gemini 3.5 Flash",
-          "limit": { "context": 1048576, "output": 8192 }
-        },
-        "gemini-3.6-flash": {
-          "name": "Gemini 3.6 Flash",
-          "limit": { "context": 1048576, "output": 8192 }
-        },
-        "gemini-3.8-flash": {
-          "name": "Gemini 3.8 Flash",
-          "limit": { "context": 1048576, "output": 8192 }
-        },
-        "gemini-flash": {
-          "name": "Gemini Flash",
-          "limit": { "context": 128000, "output": 8192 }
         }
       }
     }
@@ -66,7 +34,6 @@
   "agents": {
     "orchestrator": {
       "mode": "primary",
-      "model": "freellmapi/claude-sonnet-4-5",
       "description": "Primary software engineering coordinator. Coordinates exploration, planning, implementation, and review. Does not edit files directly.",
       "permissions": [
         { "action": "read", "resource": "*", "effect": "allow" },
@@ -83,7 +50,6 @@
     },
     "implementer": {
       "mode": "subagent",
-      "model": "freellmapi/gemini-3.5-flash",
       "description": "Implements approved changes following project conventions",
       "permissions": [
         { "action": "read", "resource": "*", "effect": "allow" },
@@ -123,7 +89,6 @@
     "plan": {
       "description": "Analyze requirements and produce an implementation plan",
       "agent": "general",
-      "model": "freellmapi/claude-sonnet-4-5",
       "subagent": true
     },
     "implement": {

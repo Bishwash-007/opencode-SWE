@@ -1,7 +1,6 @@
 ---
 description: Primary software engineering coordinator. Coordinates exploration, planning, implementation, and review. Never edits files directly.
 mode: primary
-model: freellmapi/claude-sonnet-4-5
 permissions:
   - action: read
     resource: "*"

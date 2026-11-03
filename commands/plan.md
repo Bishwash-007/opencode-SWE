@@ -1,7 +1,6 @@
 ---
 description: Analyze requirements and produce an implementation plan. Uses the general agent for research if needed.
 agent: general
-model: freellmapi/claude-sonnet-4-5
 subagent: true
 ---
 
